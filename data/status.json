@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-15T19:56:10.623Z",
+  "updated": "2026-11-15T20:05:36.657Z",
   "leagues": {
     "superlig": {
       "ok": true,
@@ -58,5 +58,9 @@
     }
   },
   "rangeError": "400 https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=20261114-20261122&limit=300 :: {\"code\":400,\"message\":\"Failed to get events endpoint.\"}",
-  "apifootball": "anahtar yok"
+  "apifootball": {
+    "currentSeason": true,
+    "results": 824,
+    "remaining": "96"
+  }
 }
