@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-15T20:08:53.672Z",
+  "updated": "2026-11-15T20:12:13.885Z",
   "leagues": {
     "superlig": {
       "ok": true,
@@ -12,6 +12,12 @@
       "teams": 0,
       "standings": 0,
       "afLeagueError": "{\"plan\":\"Free plans do not have access to this season, try from 2022 to 2024.\"}",
+      "afDays": [
+        "2026-11-14:1048/0",
+        "2026-11-15:824/0",
+        "2026-11-16:82/0"
+      ],
+      "afDayError": "{\"plan\":\"Free plans do not have access to this date, try from 2026-11-14 to 2026-11-16.\"}",
       "afMode": "date",
       "afMatches": 0,
       "afError": "{\"plan\":\"Free plans do not have access to this season, try from 2022 to 2024.\"}"
@@ -65,6 +71,6 @@
   "apifootball": {
     "currentSeason": true,
     "results": 824,
-    "remaining": "95"
+    "remaining": "88"
   }
 }
