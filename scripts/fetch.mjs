@@ -76,31 +76,38 @@ for (const lg of LEAGUES) {
   } catch (e) { status.leagues[lg.id] = { ok: false, error: e.message }; }
 }
 
-// TFF 1. Lig ESPN'de yok -> TheSportsDB (lig id 4676). Ucretsiz test anahtari; magaza oncesi lisans kontrol edilecek.
-async function tsdb(path) {
-  for (const key of ["123", "3"]) { try { return await getJson(`https://www.thesportsdb.com/api/v1/json/${key}/${path}`); } catch (e) { status.tsdbError = e.message; } }
-  return null;
+// TFF 1. Lig ESPN'de yok -> API-Football (lig id 204). Anahtar sadece GitHub Secrets'ta.
+const AF = "https://v3.football.api-sports.io";
+async function af(path) {
+  const r = await fetch(`${AF}/${path}`, { headers: { "x-apisports-key": process.env.APIFOOTBALL_KEY } });
+  const j = await r.json();
+  status.afRemaining = r.headers.get("x-ratelimit-requests-remaining");
+  if (j.errors && Object.keys(j.errors).length) throw new Error(JSON.stringify(j.errors));
+  return j.response || [];
 }
-if ((status.leagues["1lig"]?.matches || 0) === 0) {
-  const nxt = (await tsdb("eventsnextleague.php?id=4676"))?.events || [];
-  const pst = (await tsdb("eventspastleague.php?id=4676"))?.events || [];
-  let n = 0;
-  for (const ev of [...pst, ...nxt]) {
-    if (!ev?.idEvent) continue;
-    const date = ev.strTimestamp ? (ev.strTimestamp.endsWith("Z") ? ev.strTimestamp : ev.strTimestamp + "Z") : `${ev.dateEvent}T${ev.strTime || "00:00:00"}Z`;
-    const hid = "tsdb-" + ev.idHomeTeam, aid = "tsdb-" + ev.idAwayTeam;
-    teams[hid] = { name: ev.strHomeTeam, short: ev.strHomeTeam, logo: ev.strHomeTeamBadge || null };
-    teams[aid] = { name: ev.strAwayTeam, short: ev.strAwayTeam, logo: ev.strAwayTeamBadge || null };
-    const fin = ev.intHomeScore != null && ev.intAwayScore != null && /finished|FT|Match Finished/i.test(ev.strStatus || "FT");
-    fixtures.push({ id: "tsdb-" + ev.idEvent, league: "1lig", date, home: { id: hid, name: ev.strHomeTeam, score: ev.intHomeScore ?? "" }, away: { id: aid, name: ev.strAwayTeam, score: ev.intAwayScore ?? "" }, state: fin ? "post" : "pre", detail: ev.strStatus || "", clock: "", venue: ev.strVenue || "", tv: [], source: "tsdb" });
-    n++;
-  }
-  status.leagues["1lig"].tsdbMatches = n;
-  const tbl = (await tsdb("lookuptable.php?l=4676&s=2025-2026"))?.table || [];
-  if (tbl.length) {
-    standings["1lig"] = tbl.map(r => ({ id: "tsdb-" + r.idTeam, name: r.strTeam, logo: r.strBadge || r.strTeamBadge || null, rank: +r.intRank, gp: +r.intPlayed, w: +r.intWin, d: +r.intDraw, l: +r.intLoss, gf: +r.intGoalsFor, ga: +r.intGoalsAgainst, gd: +r.intGoalDifference, pts: +r.intPoints }));
-    status.leagues["1lig"].standings = tbl.length;
-  }
+const afState = s => (["1H","2H","HT","ET","BT","P","LIVE","INT"].includes(s) ? "in" : (["FT","AET","PEN","AWD","WO"].includes(s) ? "post" : "pre"));
+if (process.env.APIFOOTBALL_KEY && (status.leagues["1lig"]?.matches || 0) === 0) {
+  try {
+    const from = new Date(now.getTime() - DAYS_BACK * 864e5).toISOString().slice(0, 10), to = new Date(now.getTime() + DAYS_FWD * 864e5).toISOString().slice(0, 10);
+    let fx = [];
+    try { fx = await af(`fixtures?league=204&season=2025&from=${from}&to=${to}`); status.leagues["1lig"].afMode = "league"; }
+    catch (e) { status.leagues["1lig"].afLeagueError = e.message; for (let i = -DAYS_BACK; i <= DAYS_FWD; i++) { const d = new Date(now.getTime() + i * 864e5).toISOString().slice(0, 10); try { fx.push(...(await af(`fixtures?date=${d}`)).filter(f => f.league?.id === 204)); } catch {} } status.leagues["1lig"].afMode = "date"; }
+    let n = 0;
+    for (const f of fx) {
+      const h = f.teams?.home, a = f.teams?.away; if (!h || !a) continue;
+      teams["af-" + h.id] = { name: h.name, short: h.name, logo: h.logo }; teams["af-" + a.id] = { name: a.name, short: a.name, logo: a.logo };
+      const st = f.fixture?.status || {};
+      fixtures.push({ id: "af-" + f.fixture.id, league: "1lig", date: f.fixture.date, home: { id: "af-" + h.id, name: h.name, score: f.goals?.home ?? "" }, away: { id: "af-" + a.id, name: a.name, score: f.goals?.away ?? "" }, state: afState(st.short), detail: st.long || "", clock: st.elapsed ? `${st.elapsed}'` : "", venue: f.fixture?.venue?.name || "", tv: [], source: "apifootball" });
+      n++;
+    }
+    status.leagues["1lig"].afMatches = n;
+    const sd = await af("standings?league=204&season=2025");
+    const rows = (sd[0]?.league?.standings || []).flat();
+    if (rows.length) {
+      standings["1lig"] = rows.map(r => ({ id: "af-" + r.team.id, name: r.team.name, logo: r.team.logo, rank: r.rank, gp: r.all?.played, w: r.all?.win, d: r.all?.draw, l: r.all?.lose, gf: r.all?.goals?.for, ga: r.all?.goals?.against, gd: r.goalsDiff, pts: r.points }));
+      status.leagues["1lig"].standings = rows.length;
+    }
+  } catch (e) { status.leagues["1lig"].afError = e.message; }
 }
 
 // API-Football (varsa): sadece guncel sezonun acik olup olmadigini test eder, veri yazmaz.
