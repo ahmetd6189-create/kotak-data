@@ -1,0 +1,46 @@
+{
+  "updated": "2026-11-15T19:43:31.339Z",
+  "leagues": {
+    "superlig": {
+      "ok": false,
+      "error": "400 https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=20261114-20261122&limit=300"
+    },
+    "1lig": {
+      "ok": false,
+      "error": "400 https://site.api.espn.com/apis/site/v2/sports/soccer/tur.2/scoreboard?dates=20261114-20261122&limit=300"
+    },
+    "premier": {
+      "ok": false,
+      "error": "400 https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard?dates=20261114-20261122&limit=300"
+    },
+    "laliga": {
+      "ok": false,
+      "error": "400 https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/scoreboard?dates=20261114-20261122&limit=300"
+    },
+    "seriea": {
+      "ok": false,
+      "error": "400 https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/scoreboard?dates=20261114-20261122&limit=300"
+    },
+    "bundesliga": {
+      "ok": false,
+      "error": "400 https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/scoreboard?dates=20261114-20261122&limit=300"
+    },
+    "ligue1": {
+      "ok": false,
+      "error": "400 https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/scoreboard?dates=20261114-20261122&limit=300"
+    },
+    "ucl": {
+      "ok": false,
+      "error": "400 https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.champions/scoreboard?dates=20261114-20261122&limit=300"
+    },
+    "uel": {
+      "ok": false,
+      "error": "400 https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.europa/scoreboard?dates=20261114-20261122&limit=300"
+    },
+    "uecl": {
+      "ok": false,
+      "error": "400 https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.europa.conf/scoreboard?dates=20261114-20261122&limit=300"
+    }
+  },
+  "apifootball": "anahtar yok"
+}
