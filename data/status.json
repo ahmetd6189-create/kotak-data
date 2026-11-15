@@ -1,59 +1,60 @@
 {
-  "updated": "2026-11-15T19:52:47.388Z",
+  "updated": "2026-11-15T19:56:10.623Z",
   "leagues": {
     "superlig": {
       "ok": true,
       "matches": 8,
-      "standings": 36
+      "standings": 18
     },
     "1lig": {
       "ok": true,
       "matches": 0,
       "teams": 0,
-      "standings": 0
+      "standings": 5,
+      "tsdbMatches": 2
     },
     "premier": {
       "ok": true,
       "matches": 9,
-      "standings": 40
+      "standings": 20
     },
     "laliga": {
       "ok": true,
       "matches": 9,
-      "standings": 40
+      "standings": 20
     },
     "seriea": {
       "ok": true,
       "matches": 9,
-      "standings": 40
+      "standings": 20
     },
     "bundesliga": {
       "ok": true,
       "matches": 9,
-      "standings": 36
+      "standings": 18
     },
     "ligue1": {
       "ok": true,
       "matches": 9,
-      "standings": 36
+      "standings": 18
     },
     "ucl": {
       "ok": true,
       "matches": 0,
       "teams": 36,
-      "standings": 72
+      "standings": 36
     },
     "uel": {
       "ok": true,
       "matches": 0,
       "teams": 36,
-      "standings": 72
+      "standings": 36
     },
     "uecl": {
       "ok": true,
       "matches": 0,
       "teams": 36,
-      "standings": 72
+      "standings": 36
     }
   },
   "rangeError": "400 https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=20261114-20261122&limit=300 :: {\"code\":400,\"message\":\"Failed to get events endpoint.\"}",
