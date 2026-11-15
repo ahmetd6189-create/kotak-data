@@ -21,18 +21,29 @@ const now = new Date();
 const range = `${ymd(new Date(now.getTime() - DAYS_BACK * 864e5))}-${ymd(new Date(now.getTime() + DAYS_FWD * 864e5))}`;
 
 async function getJson(url) {
-  const r = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0 KotakTV", Referer: "https://www.espn.com/" } });
-  if (!r.ok) throw new Error(`${r.status} ${url}`);
+  const r = await fetch(url, { headers: { Accept: "application/json", "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36" } });
+  if (!r.ok) { const body = (await r.text().catch(() => "")).slice(0, 160).replace(/\s+/g, " "); throw new Error(`${r.status} ${url} :: ${body}`); }
   return r.json();
+}
+// Once tarih araligi dener; olmazsa gun gun ceker (ESPN bazen araligi reddediyor).
+async function scoreboard(code) {
+  try { return (await getJson(`${BASE}/${code}/scoreboard?dates=${range}&limit=300`)).events || []; }
+  catch (e) { status.rangeError = status.rangeError || e.message; }
+  const all = [];
+  for (let i = -DAYS_BACK; i <= DAYS_FWD; i++) {
+    try { all.push(...((await getJson(`${BASE}/${code}/scoreboard?dates=${ymd(new Date(now.getTime() + i * 864e5))}`)).events || [])); }
+    catch (e) { status.dayErrors = (status.dayErrors || 0) + 1; }
+  }
+  const seen = new Set(); return all.filter(ev => !seen.has(ev.id) && seen.add(ev.id));
 }
 
 const fixtures = [], standings = {}, teams = {}, status = { updated: now.toISOString(), leagues: {} };
 
 for (const lg of LEAGUES) {
   try {
-    const sb = await getJson(`${BASE}/${lg.code}/scoreboard?dates=${range}&limit=300`);
+    const events = await scoreboard(lg.code);
     let n = 0;
-    for (const ev of sb.events || []) {
+    for (const ev of events) {
       const c = ev.competitions?.[0]; if (!c) continue;
       const home = c.competitors?.find(x => x.homeAway === "home"), away = c.competitors?.find(x => x.homeAway === "away");
       if (!home || !away) continue;
