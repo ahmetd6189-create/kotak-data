@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-15T20:05:36.657Z",
+  "updated": "2026-11-15T20:08:53.672Z",
   "leagues": {
     "superlig": {
       "ok": true,
@@ -10,8 +10,11 @@
       "ok": true,
       "matches": 0,
       "teams": 0,
-      "standings": 5,
-      "tsdbMatches": 2
+      "standings": 0,
+      "afLeagueError": "{\"plan\":\"Free plans do not have access to this season, try from 2022 to 2024.\"}",
+      "afMode": "date",
+      "afMatches": 0,
+      "afError": "{\"plan\":\"Free plans do not have access to this season, try from 2022 to 2024.\"}"
     },
     "premier": {
       "ok": true,
@@ -58,9 +61,10 @@
     }
   },
   "rangeError": "400 https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=20261114-20261122&limit=300 :: {\"code\":400,\"message\":\"Failed to get events endpoint.\"}",
+  "afRemaining": null,
   "apifootball": {
     "currentSeason": true,
     "results": 824,
-    "remaining": "96"
+    "remaining": "95"
   }
 }
