@@ -67,12 +67,40 @@ for (const lg of LEAGUES) {
         const s = Object.fromEntries((e.stats || []).map(x => [x.name, x.value]));
         rows.push({ id: e.team?.id, name: e.team?.displayName, logo: e.team?.logos?.[0]?.href, rank: s.rank, gp: s.gamesPlayed, w: s.wins, d: s.ties, l: s.losses, gf: s.pointsFor, ga: s.pointsAgainst, gd: s.pointDifferential, pts: s.points });
       } for (const ch of g.children || []) walk(ch); };
-      walk(sd); for (const ch of sd.children || []) walk(ch);
-      rows.sort((a, b) => (a.rank ?? 99) - (b.rank ?? 99));
-      standings[lg.id] = rows;
-      status.leagues[lg.id].standings = rows.length;
+      walk(sd);
+      const uniq = new Map(); for (const r of rows) if (r.id && !uniq.has(r.id)) uniq.set(r.id, r);
+      const table = [...uniq.values()].sort((a, b) => (a.rank ?? 99) - (b.rank ?? 99));
+      standings[lg.id] = table;
+      status.leagues[lg.id].standings = table.length;
     } catch (e) { status.leagues[lg.id].standings = `hata: ${e.message}`; }
   } catch (e) { status.leagues[lg.id] = { ok: false, error: e.message }; }
+}
+
+// TFF 1. Lig ESPN'de yok -> TheSportsDB (lig id 4676). Ucretsiz test anahtari; magaza oncesi lisans kontrol edilecek.
+async function tsdb(path) {
+  for (const key of ["123", "3"]) { try { return await getJson(`https://www.thesportsdb.com/api/v1/json/${key}/${path}`); } catch (e) { status.tsdbError = e.message; } }
+  return null;
+}
+if ((status.leagues["1lig"]?.matches || 0) === 0) {
+  const nxt = (await tsdb("eventsnextleague.php?id=4676"))?.events || [];
+  const pst = (await tsdb("eventspastleague.php?id=4676"))?.events || [];
+  let n = 0;
+  for (const ev of [...pst, ...nxt]) {
+    if (!ev?.idEvent) continue;
+    const date = ev.strTimestamp ? (ev.strTimestamp.endsWith("Z") ? ev.strTimestamp : ev.strTimestamp + "Z") : `${ev.dateEvent}T${ev.strTime || "00:00:00"}Z`;
+    const hid = "tsdb-" + ev.idHomeTeam, aid = "tsdb-" + ev.idAwayTeam;
+    teams[hid] = { name: ev.strHomeTeam, short: ev.strHomeTeam, logo: ev.strHomeTeamBadge || null };
+    teams[aid] = { name: ev.strAwayTeam, short: ev.strAwayTeam, logo: ev.strAwayTeamBadge || null };
+    const fin = ev.intHomeScore != null && ev.intAwayScore != null && /finished|FT|Match Finished/i.test(ev.strStatus || "FT");
+    fixtures.push({ id: "tsdb-" + ev.idEvent, league: "1lig", date, home: { id: hid, name: ev.strHomeTeam, score: ev.intHomeScore ?? "" }, away: { id: aid, name: ev.strAwayTeam, score: ev.intAwayScore ?? "" }, state: fin ? "post" : "pre", detail: ev.strStatus || "", clock: "", venue: ev.strVenue || "", tv: [], source: "tsdb" });
+    n++;
+  }
+  status.leagues["1lig"].tsdbMatches = n;
+  const tbl = (await tsdb("lookuptable.php?l=4676&s=2025-2026"))?.table || [];
+  if (tbl.length) {
+    standings["1lig"] = tbl.map(r => ({ id: "tsdb-" + r.idTeam, name: r.strTeam, logo: r.strBadge || r.strTeamBadge || null, rank: +r.intRank, gp: +r.intPlayed, w: +r.intWin, d: +r.intDraw, l: +r.intLoss, gf: +r.intGoalsFor, ga: +r.intGoalsAgainst, gd: +r.intGoalDifference, pts: +r.intPoints }));
+    status.leagues["1lig"].standings = tbl.length;
+  }
 }
 
 // API-Football (varsa): sadece guncel sezonun acik olup olmadigini test eder, veri yazmaz.
