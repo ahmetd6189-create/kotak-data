@@ -59,8 +59,9 @@ for (const lg of LEAGUES) {
       n++;
     }
     status.leagues[lg.id] = { ok: true, matches: n };
+    if (n === 0) { try { const tl = await getJson(`${BASE}/${lg.code}/teams`); const ts = tl.sports?.[0]?.leagues?.[0]?.teams || []; status.leagues[lg.id].teams = ts.length; for (const x of ts) if (x.team?.id) teams[x.team.id] = { name: x.team.displayName, short: x.team.shortDisplayName, abbr: x.team.abbreviation, logo: x.team.logos?.[0]?.href || `https://a.espncdn.com/i/teamlogos/soccer/500/${x.team.id}.png` }; } catch (e) { status.leagues[lg.id].teams = `hata: ${e.message}`; } }
     try {
-      const sd = await getJson(`${BASE}/${lg.code}/standings`);
+      const sd = await getJson(`https://site.api.espn.com/apis/v2/sports/soccer/${lg.code}/standings`);
       const rows = [];
       const walk = g => { for (const e of g.standings?.entries || []) {
         const s = Object.fromEntries((e.stats || []).map(x => [x.name, x.value]));
