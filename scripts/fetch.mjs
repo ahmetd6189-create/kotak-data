@@ -91,7 +91,7 @@ if (process.env.APIFOOTBALL_KEY && (status.leagues["1lig"]?.matches || 0) === 0)
     const from = new Date(now.getTime() - DAYS_BACK * 864e5).toISOString().slice(0, 10), to = new Date(now.getTime() + DAYS_FWD * 864e5).toISOString().slice(0, 10);
     let fx = [];
     try { fx = await af(`fixtures?league=204&season=2025&from=${from}&to=${to}`); status.leagues["1lig"].afMode = "league"; }
-    catch (e) { status.leagues["1lig"].afLeagueError = e.message; for (let i = -DAYS_BACK; i <= DAYS_FWD; i++) { const d = new Date(now.getTime() + i * 864e5).toISOString().slice(0, 10); try { fx.push(...(await af(`fixtures?date=${d}`)).filter(f => f.league?.id === 204)); } catch {} } status.leagues["1lig"].afMode = "date"; }
+    catch (e) { status.leagues["1lig"].afLeagueError = e.message; for (let i = -DAYS_BACK; i <= DAYS_FWD; i++) { const d = new Date(now.getTime() + i * 864e5).toISOString().slice(0, 10); try { const all = await af(`fixtures?date=${d}`); status.leagues["1lig"].afDays = (status.leagues["1lig"].afDays || []).concat(`${d}:${all.length}/${all.filter(f => f.league?.id === 204).length}`); fx.push(...all.filter(f => f.league?.id === 204)); } catch (e) { status.leagues["1lig"].afDayError = e.message; } } status.leagues["1lig"].afMode = "date"; }
     let n = 0;
     for (const f of fx) {
       const h = f.teams?.home, a = f.teams?.away; if (!h || !a) continue;
