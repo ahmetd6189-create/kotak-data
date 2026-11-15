@@ -1,55 +1,59 @@
 {
-  "updated": "2026-11-15T19:49:31.340Z",
+  "updated": "2026-11-15T19:52:47.388Z",
   "leagues": {
     "superlig": {
       "ok": true,
       "matches": 8,
-      "standings": "hata: 404 https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/standings :: {\"code\":404,\"message\":\"Event ID 'null' not found for sport/league 'soccer/tur.1'\"}"
+      "standings": 36
     },
     "1lig": {
       "ok": true,
       "matches": 0,
-      "standings": "hata: 404 https://site.api.espn.com/apis/site/v2/sports/soccer/tur.2/standings :: {\"code\":404,\"message\":\"Event ID 'null' not found for sport/league 'soccer/tur.2'\"}"
+      "teams": 0,
+      "standings": 0
     },
     "premier": {
       "ok": true,
       "matches": 9,
-      "standings": "hata: 404 https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/standings :: {\"code\":404,\"message\":\"Event ID 'null' not found for sport/league 'soccer/eng.1'\"}"
+      "standings": 40
     },
     "laliga": {
       "ok": true,
       "matches": 9,
-      "standings": "hata: 404 https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/standings :: {\"code\":404,\"message\":\"Event ID 'null' not found for sport/league 'soccer/esp.1'\"}"
+      "standings": 40
     },
     "seriea": {
       "ok": true,
       "matches": 9,
-      "standings": "hata: 404 https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/standings :: {\"code\":404,\"message\":\"Event ID 'null' not found for sport/league 'soccer/ita.1'\"}"
+      "standings": 40
     },
     "bundesliga": {
       "ok": true,
       "matches": 9,
-      "standings": "hata: 404 https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/standings :: {\"code\":404,\"message\":\"Event ID 'null' not found for sport/league 'soccer/ger.1'\"}"
+      "standings": 36
     },
     "ligue1": {
       "ok": true,
       "matches": 9,
-      "standings": "hata: 404 https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/standings :: {\"code\":404,\"message\":\"Event ID 'null' not found for sport/league 'soccer/fra.1'\"}"
+      "standings": 36
     },
     "ucl": {
       "ok": true,
       "matches": 0,
-      "standings": "hata: 404 https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.champions/standings :: {\"code\":404,\"message\":\"Event ID 'null' not found for sport/league 'soccer/uefa.champions'\"}"
+      "teams": 36,
+      "standings": 72
     },
     "uel": {
       "ok": true,
       "matches": 0,
-      "standings": "hata: 404 https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.europa/standings :: {\"code\":404,\"message\":\"Event ID 'null' not found for sport/league 'soccer/uefa.europa'\"}"
+      "teams": 36,
+      "standings": 72
     },
     "uecl": {
       "ok": true,
       "matches": 0,
-      "standings": "hata: 404 https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.europa.conf/standings :: {\"code\":404,\"message\":\"Event ID 'null' not found for sport/league 'soccer/uefa.europa.conf'\"}"
+      "teams": 36,
+      "standings": 72
     }
   },
   "rangeError": "400 https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=20261114-20261122&limit=300 :: {\"code\":400,\"message\":\"Failed to get events endpoint.\"}",
