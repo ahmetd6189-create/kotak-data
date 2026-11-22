@@ -1,9 +1,9 @@
 {
-  "updated": "2026-11-21T20:24:57.707Z",
+  "updated": "2026-11-22T10:55:35.668Z",
   "leagues": {
     "superlig": {
       "ok": true,
-      "matches": 13,
+      "matches": 16,
       "standings": 18
     },
     "1lig": {
@@ -12,34 +12,34 @@
       "teams": 0,
       "standings": 0,
       "afLeagueError": "{\"plan\":\"Free plans do not have access to this season, try from 2022 to 2024.\"}",
-      "afDayError": "{\"plan\":\"Free plans do not have access to this date, try from 2026-11-20 to 2026-11-22.\"}",
+      "afDayError": "{\"plan\":\"Free plans do not have access to this date, try from 2026-11-21 to 2026-11-23.\"}",
       "afMode": "date",
       "afMatches": 0,
       "afError": "{\"plan\":\"Free plans do not have access to this season, try from 2022 to 2024.\"}"
     },
     "premier": {
       "ok": true,
-      "matches": 14,
+      "matches": 20,
       "standings": 20
     },
     "laliga": {
       "ok": true,
-      "matches": 15,
+      "matches": 18,
       "standings": 20
     },
     "seriea": {
       "ok": true,
-      "matches": 14,
+      "matches": 18,
       "standings": 20
     },
     "bundesliga": {
       "ok": true,
-      "matches": 15,
+      "matches": 17,
       "standings": 18
     },
     "ligue1": {
       "ok": true,
-      "matches": 15,
+      "matches": 17,
       "standings": 18
     },
     "ucl": {
@@ -58,7 +58,7 @@
       "standings": 36
     }
   },
-  "rangeError": "400 https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=20261120-20261128&limit=300 :: {\"code\":400,\"message\":\"Failed to get events endpoint.\"}",
+  "rangeError": "400 https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=20261121-20261129&limit=300 :: {\"code\":400,\"message\":\"Failed to get events endpoint.\"}",
   "afRemaining": null,
   "apifootball": {
     "currentSeason": false,
