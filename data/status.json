@@ -1,9 +1,9 @@
 {
-  "updated": "2026-11-27T22:34:15.124Z",
+  "updated": "2026-11-28T11:29:49.544Z",
   "leagues": {
     "superlig": {
       "ok": true,
-      "matches": 10,
+      "matches": 13,
       "standings": 18
     },
     "1lig": {
@@ -12,34 +12,34 @@
       "teams": 0,
       "standings": 0,
       "afLeagueError": "{\"plan\":\"Free plans do not have access to this season, try from 2022 to 2024.\"}",
-      "afDayError": "{\"plan\":\"Free plans do not have access to this date, try from 2026-11-26 to 2026-11-28.\"}",
+      "afDayError": "{\"plan\":\"Free plans do not have access to this date, try from 2026-11-27 to 2026-11-29.\"}",
       "afMode": "date",
       "afMatches": 0,
       "afError": "{\"plan\":\"Free plans do not have access to this season, try from 2022 to 2024.\"}"
     },
     "premier": {
       "ok": true,
-      "matches": 20,
+      "matches": 27,
       "standings": 20
     },
     "laliga": {
       "ok": true,
-      "matches": 13,
+      "matches": 17,
       "standings": 20
     },
     "seriea": {
       "ok": true,
-      "matches": 11,
+      "matches": 14,
       "standings": 20
     },
     "bundesliga": {
       "ok": true,
-      "matches": 10,
+      "matches": 16,
       "standings": 18
     },
     "ligue1": {
       "ok": true,
-      "matches": 10,
+      "matches": 15,
       "standings": 18
     },
     "ucl": {
@@ -50,16 +50,18 @@
     },
     "uel": {
       "ok": true,
-      "matches": 18,
+      "matches": 0,
+      "teams": 36,
       "standings": 36
     },
     "uecl": {
       "ok": true,
-      "matches": 18,
+      "matches": 0,
+      "teams": 36,
       "standings": 36
     }
   },
-  "rangeError": "400 https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=20261126-20261204&limit=300 :: {\"code\":400,\"message\":\"Failed to get events endpoint.\"}",
+  "rangeError": "400 https://site.api.espn.com/apis/site/v2/sports/soccer/tur.1/scoreboard?dates=20261127-20261205&limit=300 :: {\"code\":400,\"message\":\"Failed to get events endpoint.\"}",
   "afRemaining": null,
   "apifootball": {
     "currentSeason": false,
